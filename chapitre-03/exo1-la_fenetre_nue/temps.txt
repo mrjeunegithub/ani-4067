@@ -1,2 +1,1 @@
-Le temps mis pour avoir la fenetre etait
-Minutes: 10
+minutes: 10
