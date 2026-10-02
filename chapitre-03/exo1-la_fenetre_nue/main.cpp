@@ -4,7 +4,7 @@
 using namespace nkentseu;
 int main() {
     NkWindowConfig config;
-    config.title  = "Fenetre";
+    config.title  = "DaneWindow";
     config.width  = 1280;
     config.height = 720;
 
