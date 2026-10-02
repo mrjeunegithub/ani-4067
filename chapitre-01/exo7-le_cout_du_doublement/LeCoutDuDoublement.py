@@ -17,43 +17,47 @@ canvas = tk.Canvas(
 )
 canvas.pack()
 
-# Permet d'afficher correctement la fenêtre avant la mesure
+# Affichage initial
 root.update()
 
-durees_rendu = []
+# Petit échauffement
+for _ in range(20):
+    canvas.delete("all")
+    root.update()
 
-
-# MESURE DU RENDU SEUL
+# Mesure du rendu seul
+durees = []
 
 for _ in range(NB_IMAGES):
 
     debut = time.perf_counter()
-    
+
     # RENDU
     canvas.delete("all")
-    root.update_idletasks()
-    
+
+    # Force Tkinter à traiter immédiatement
+    # les mises à jour de la fenêtre.
+    root.update()
 
     fin = time.perf_counter()
 
     duree_ms = (fin - debut) * 1000
-    durees_rendu.append(duree_ms)
+    durees.append(duree_ms)
 
-# RESULTATS
+# Résultats
+moyenne = sum(durees) / len(durees)
+plus_longue = max(durees)
 
-moyenne = sum(durees_rendu) / len(durees_rendu)
-plus_longue = max(durees_rendu)
+# Estimation de deux rendus
+rendu_deux_fois = moyenne * 2
 
-# Estimation si on faisait le même rendu deux fois
-rendu_x2 = moyenne * 2
-
-# Temps restant sur une enveloppe de 11 ms
-reste = 11 - rendu_x2
+# Budget restant sur 11 ms
+reste = 11 - rendu_deux_fois
 
 print("Nombre d'images :", NB_IMAGES)
-print(f"Temps moyen du rendu seul : {moyenne:.4f} ms")
-print(f"Plus long rendu : {plus_longue:.4f} ms")
-print(f"Estimation du rendu effectué deux fois : {rendu_x2:.4f} ms")
-print(f"Temps restant sur 11 ms : {reste:.4f} ms")
+print(f"Temps moyen du rendu seul : {moyenne:.6f} ms")
+print(f"Plus long rendu : {plus_longue:.6f} ms")
+print(f"Estimation du rendu effectué deux fois : {rendu_deux_fois:.6f} ms")
+print(f"Temps restant sur 11 ms : {reste:.6f} ms")
 
 root.destroy()
